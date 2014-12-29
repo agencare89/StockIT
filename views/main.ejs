@@ -1,0 +1,303 @@
+<!--main html page-->
+<html> 
+<head> 
+	<!-- ALL THIS STUFF IS FOR LOADING THE BOOTSTRAP AND JQUERY! --> 
+	<title> SE3316 Final Project </title> 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> <!-- this loads bootstrap --> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> <!-- this is for jQuery -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> <!-- this is for JavaScript -->
+	<script type = 'text/javascript' src = 'script4.js'></script>
+		
+	<!-- USE THIS TO ADD CSS IF NEEDED --> 
+	<style type = "text/css"> 
+		body { 
+			padding-top: 70px; 
+		}
+		h4.padding { 
+			padding-left:40px;
+		}
+		div.padding { 
+			padding-top: 25px;
+    		padding-right: 50px;
+    		padding-bottom: 25px;
+    		padding-left: 50px;
+		}
+
+		div.searchBar { 
+			padding-left: 100px;
+		}
+
+		div.mysize { 
+			width: 200px;
+		}
+		div.mysize2 {
+			width: 400px;
+		}
+
+		div.alphabetBtns { 
+			padding-left: 200px;
+		}
+
+		div.pads { 
+			padding-left: 100px;
+		}
+		div.inputtop {
+			padding-top:10px;
+		}
+		div.rightpads { 
+			padding-left:800px;
+		}
+		div.HSbuttons { 
+			padding-left: 200px;
+			padding-right: 200px;
+		}
+		.bg { 
+			background: url('http://i.telegraph.co.uk/multimedia/archive/02547/market_2547067b.jpg') no-repeat center center;
+			background-size: 1440px 350px;
+			position: fixed; 
+			width: 100%;
+			height: 350px; 
+			top: 70px; 
+			left: 0px;
+			z-index: -1;
+			opacity: 0.8;
+		}
+
+		.jumbotron {
+			height: 350px; 
+			color:white;
+			text-shadow: #444 0 1px 1px;
+			background: transparent;
+		}
+		
+	</style>
+	<!-- USE THIS TO ADD general jQuery/javascript IF NEEDED -->
+
+	<!-- ALL THIS STUFF IS FOR LOADING THE BOOTSTRAP AND JQUERY! --> 
+</head> 
+
+<body> 
+	
+	<div class = "bg"></div>
+	<div class = "jumbotron"> 
+		<div class = "container">
+			<h1><center> Stock-IT! </center></h1>
+			<p><center>SE 3316 - Single Page Application</center></p>
+
+			<% if (user) { %>
+        		<div class='alert alert-success' role='alert'><center>Welcome to Stock-IT, <b><%= user.local.email %></b></center></div>
+   		 	<% } 
+
+   		 	else { %>
+   		 		<div class="alert alert-warning" role="alert"><center><b>Warning!</b> Please login to access the full features of this website</center></div>
+			<% } %>
+		</div>
+	</div>
+	<hr> 
+
+	<br>
+
+	<!-- Create the navigation panel -->
+	
+	<div class="navbar navbar-inverse navbar-fixed-top">
+	    <div class="container">
+
+	      	<a class="navbar-brand" href="#"><div class = "inputtop">Stock-IT!</div></a>
+	      	<div class="navbar-collapse collapse">
+	        	<ul class="nav navbar-nav navbar-left">
+	          		<li><a href="#allStocks"><div class = "inputtop">ALL NYSE STOCKS</div></a></li>
+	          		<% if (user) { %>
+	          		<li><a href="#portfolio"><div class = "inputtop">YOUR STOCK PORTFOLIO</div></a></li>
+	          		<% } %>
+	          		<li><a href="#hotStocks"><div class = "inputtop">HOT STOCKS</div></a></li>
+	        	</ul>
+	        	<u1 class = "nav navbar-nav navbar-right"> 
+            		<li><a href = "/login"><div class = "inputtop"><button class = "btn btn-success" id = "login">Login</button></div></a></li>
+            		<li><a href = "/signup"><div class = "inputtop"><button class = "btn btn-warning" id = "signup">Sign Up</button></div></a></li>
+            	</ul>
+	      	</div>
+	    </div>
+  	</div>
+
+	<!-- Finish the navigation, start the actual stuffs -->
+
+
+	<% if (user) { %>
+	
+		<div class="panel panel-default">
+			<a id = "portfolio"></a>
+    		<div class="panel-heading" role="tab" id="headingTwo">
+      			<h4 class="panel-title">
+        			<a class = "collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          			Your Stock Portfolio
+        			</a>
+     			</h4>
+    		</div>
+    		<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+    			<br>
+    			
+				<div class = "rightpads">
+					<div class="input-group mysize2">
+	  					<input type="text" class="form-control" placeholder="Enter Symbol" id = "addNewSymbol">
+	  					<span class="input-group-btn">
+	    					<button id = "addNew" class="btn btn-default" type="button">
+	    						<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add!
+	    					</button>
+	    					<button id = "delete" class="btn btn-default" type="button">
+	    						<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> Delete!
+	    					</button>
+	  					</span>
+					</div>
+				</div>
+
+    			<div> 
+    				<!-- shows a distinct list of stocks, extracted from that user's specific list! -->
+    				<br>
+
+	  				<div class = "container">
+						<table class = "table table-striped table-hover table-condensed"> 
+							<thead id = "portfolioHeader"> 
+									
+							</thead>
+							<tbody id = "portfolioBody"> 
+								
+							</tbody> 
+						</table>
+					
+					</div> 
+					<br>
+					<div class = "container">
+						<button id = "deleteAll" class = "btn btn-danger" type = "button"> Delete portfolio </button>
+					</div>
+					<br>
+    			</div>
+    		</div>
+    	</div>
+    	<hr>
+	<% } %>
+
+	
+	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  		<div class="panel panel-default">
+  			<a id = "allStocks"></a>
+    		<div class="panel-heading" role="tab" id="headingOne">
+      			<h4 class="panel-title">
+        			<a class = "collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          			All NYSE Stocks
+        			</a>
+     			</h4>
+    		</div>
+    		<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">		
+    			<br>
+				<div class = "pads"><label for = "srch"> Search for Stocks: </label></div>
+				<div class = "searchBar">
+					<div class="input-group mysize">
+	  					<input type="text" class="form-control" placeholder="Enter Symbol" id = "srch">
+	  					<span class="input-group-btn">
+	    					<button id = "search" class="btn btn-default" type="button">Search!</button>
+	  					</span>
+					</div>
+				</div>
+
+				<br>
+					
+				<div id = "result"></div>
+				<!-- this is going to be tough... put 26 letter options accross the top... --> 
+				<div class = "alphabetBtns">
+					<div class="btn-group" role="group" aria-label="...">
+						<button id = "ALL" type = "button" class = "btn btn-default">ALL</button>
+						<button id = "A" type="button" class="btn btn-default">A</button>
+	  					<button id = "B" type="button" class="btn btn-default">B</button>
+	  					<button id = "C" type="button" class="btn btn-default">C</button>
+	  					<button id = "D" type="button" class="btn btn-default">D</button>
+	  					<button id = "E" type="button" class="btn btn-default">E</button>
+	  					<button id = "F" type="button" class="btn btn-default">F</button>
+	  					<button id = "G" type="button" class="btn btn-default">G</button>
+	  					<button id = "H" type="button" class="btn btn-default">H</button>
+	  					<button id = "I" type="button" class="btn btn-default">I</button>
+	  					<button id = "J" type="button" class="btn btn-default">J</button>
+	  					<button id = "K" type="button" class="btn btn-default">K</button>
+	  					<button id = "L" type="button" class="btn btn-default">L</button>
+	  					<button id = "M" type="button" class="btn btn-default">M</button>
+	  					<button id = "N" type="button" class="btn btn-default">N</button>
+	  					<button id = "O" type="button" class="btn btn-default">O</button>
+	  					<button id = "P" type="button" class="btn btn-default">P</button>
+	  					<button id = "Q" type="button" class="btn btn-default">Q</button>
+	  					<button id = "R" type="button" class="btn btn-default">R</button>
+	  					<button id = "S" type="button" class="btn btn-default">S</button>
+	  					<button id = "T" type="button" class="btn btn-default">T</button>
+	  					<button id = "U" type="button" class="btn btn-default">U</button>
+	  					<button id = "V" type="button" class="btn btn-default">V</button>
+	  					<button id = "W" type="button" class="btn btn-default">W</button>
+	  					<button id = "X" type="button" class="btn btn-default">X</button>
+	  					<button id = "Y" type="button" class="btn btn-default">Y</button>
+	  					<button id = "Z" type="button" class="btn btn-default">Z</button>
+		  			</div>
+		  		</div>
+
+		  		<br>
+
+  				<div class = "container">
+					<table class = "table table-striped table-hover table-condensed"> 
+						<thead id = "header"> 
+
+						</thead>
+						<tbody id = "body"> 
+
+						</tbody> 
+					</table>
+				</div> 
+				<div id = "noResults"> </div>
+  			
+			</div>
+		</div>
+
+		<hr>
+
+
+    	<div class="panel panel-default">
+    		<a id = "hotStocks"></a>
+    		<div class="panel-heading" role="tab" id="headingThree">
+      			<h4 class="panel-title">
+        			<a class = "collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          			Hot Stocks
+        			</a>
+     			</h4>
+    		</div>
+    		<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+    			<br>
+				
+				<div class = "HSbuttons">
+	  				<div class="btn-group btn-group-justified" role="group" aria-label="...">
+	  					<div class = "btn-group" role = "group">
+	  						<button id = "percent" type = "button" class = "btn btn-default">Percent Change</button> 
+	  					</div>
+	  					<div class="btn-group" role="group">
+	    					<button id = "net" type="button" class="btn btn-default">Net Change</button>
+	  					</div>
+	  					<div class="btn-group" role="group">
+	    					<button id = "volume" type="button" class="btn btn-default">Volume</button>
+	  					</div>
+					</div>
+				</div>
+
+  				<br>
+
+				<div class = "container">
+					<table class = "table table-striped table-hover table-condensed"> 
+						<thead id = "hotStocksheader"> 
+
+						</thead>
+						<tbody id = "hotStocksbody"> 
+
+						</tbody>  
+					</table>
+				</div> 
+    		</div>
+    	</div>	
+
+	</div>
+
+	
+</body> 
+</html> 
